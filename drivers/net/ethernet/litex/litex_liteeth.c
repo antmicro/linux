@@ -147,7 +147,6 @@ static int liteeth_stop(struct net_device *netdev)
 	litex_write8(priv->base + LITEETH_READER_EV_ENABLE, 0);
 
 	free_irq(netdev->irq, netdev);
-
 	return 0;
 }
 
