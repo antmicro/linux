@@ -75,7 +75,6 @@
 
 struct litex_mmc_host {
 	struct mmc_host *mmc;
-
 	void __iomem *sdphy;
 	void __iomem *sdcore;
 	void __iomem *sdreader;
