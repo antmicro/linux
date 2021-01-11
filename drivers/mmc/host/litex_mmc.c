@@ -527,6 +527,15 @@ static int litex_mmc_probe(struct platform_device *pdev)
 	mmc = mmc_alloc_host(sizeof(struct litex_mmc_host), dev);
 	if (!mmc)
 		return -ENOMEM;
+	/* FIXME: mmc_alloc_host() defaults to max_[req,seg]_size=PAGE_SIZE,
+	 * max_blk_size=512, and sets max_blk_count accordingly (to 8);
+	 * However, using multi-block transfers results in DMA timeout errors,
+	 * which is something that requires further investigation!
+	 */
+	mmc->max_blk_count = 1; /* only single-block transfers currently work */
+	/* recalculate max_[req,seg]_size given new max_blk_count */
+	mmc->max_req_size = mmc->max_blk_size * mmc->max_blk_count;
+	mmc->max_seg_size = mmc->max_req_size;
 
 	ret = devm_add_action_or_reset(dev, litex_mmc_free_host_wrapper, mmc);
 	if (ret)
@@ -617,7 +626,6 @@ static int litex_mmc_probe(struct platform_device *pdev)
 	mmc->caps2 |= MMC_CAP2_NO_WRITE_PROTECT |
 		      MMC_CAP2_NO_SDIO |
 		      MMC_CAP2_NO_MMC;
-
 	platform_set_drvdata(pdev, host);
 
 	ret = mmc_add_host(mmc);
