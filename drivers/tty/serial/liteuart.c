@@ -282,6 +282,7 @@ static int liteuart_probe(struct platform_device *pdev)
 	struct liteuart_port *uart;
 	struct uart_port *port;
 	struct xa_limit limit;
+	struct resource *res;
 	int dev_id, ret;
 
 	uart = devm_kzalloc(&pdev->dev, sizeof(struct liteuart_port), GFP_KERNEL);
