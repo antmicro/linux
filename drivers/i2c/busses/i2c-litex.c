@@ -109,7 +109,7 @@ static int litex_i2c_probe(struct platform_device *pdev)
 	if (!res)
 		return -EBUSY;
 
-	membase = devm_of_iomap(&pdev->dev, node, 0, &res->end);
+	membase = devm_ioremap(&pdev->dev, res->start, resource_size(res));
 	if (IS_ERR_OR_NULL(membase))
 		return -EIO;
 
