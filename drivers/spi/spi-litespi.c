@@ -23,8 +23,10 @@
 
 /* register offsets */
 #define LITESPI_OFF_CTRL	0x00
-#define LITESPI_OFF_STAT	\
+#define LITESPI_OFF_CTRL2   \
 	_next_reg_off(LITESPI_OFF_CTRL, LITESPI_SZ_CTRL)
+#define LITESPI_OFF_STAT	\
+	_next_reg_off(LITESPI_OFF_CTRL2, LITESPI_SZ_CTRL)
 #define LITESPI_OFF_MOSI	\
 	_next_reg_off(LITESPI_OFF_STAT, LITESPI_SZ_STAT)
 #define LITESPI_OFF_MISO	\
@@ -32,7 +34,6 @@
 #define LITESPI_OFF_CS		\
 	_next_reg_off(LITESPI_OFF_MISO, LITESPI_SZ_MISO)
 
-#define LITESPI_CTRL_SHIFT_BPW	8
 #define LITESPI_CTRL_START_BIT	0
 
 struct litespi_hw {
@@ -50,7 +51,7 @@ static int litespi_rxtx(struct spi_master *master, struct spi_device *spi,
 			struct spi_transfer *t)
 {
 	struct litespi_hw *hw = spi_master_get_devdata(master);
-	u16 ctl_word = t->bits_per_word << LITESPI_CTRL_SHIFT_BPW;
+	u16 ctl_word = t->bits_per_word;
 	int i;
 
 	/* set chip select */
@@ -76,7 +77,7 @@ static int litespi_rxtx(struct spi_master *master, struct spi_device *spi,
 				litex_write8(hw->base +
 						 LITESPI_OFF_MOSI, *tx++);
 
-			litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+			litex_write16(hw->base + LITESPI_OFF_CTRL2, ctl_word);
 			litespi_wait_xfer_end(hw);
 
 			if (rx)
@@ -93,7 +94,7 @@ static int litespi_rxtx(struct spi_master *master, struct spi_device *spi,
 				litex_write16(hw->base + LITESPI_OFF_MOSI,
 						 be16_to_cpu(*tx++));
 
-			litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+			litex_write16(hw->base + LITESPI_OFF_CTRL2, ctl_word);
 			litespi_wait_xfer_end(hw);
 
 			if (rx)
@@ -110,7 +111,7 @@ static int litespi_rxtx(struct spi_master *master, struct spi_device *spi,
 				litex_write32(hw->base + LITESPI_OFF_MOSI,
 						 be32_to_cpu(*tx++));
 
-			litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+			litex_write16(hw->base + LITESPI_OFF_CTRL2, ctl_word);
 			litespi_wait_xfer_end(hw);
 
 			if (rx)
