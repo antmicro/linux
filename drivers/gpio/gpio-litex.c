@@ -267,10 +267,7 @@ static int litex_gpio_probe(struct platform_device *pdev)
 	if (!res)
 		return -EBUSY;
 
-    pr_info("Przed iomap");
     gpio_s->membase = devm_ioremap(&pdev->dev, res->start, resource_size(res));
-//	gpio_s->membase = devm_of_iomap(&pdev->dev, node, 0, &res->end);
-    pr_info("Po iomap");
 	if (IS_ERR_OR_NULL(gpio_s->membase))
 		return -EIO;
 

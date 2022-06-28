@@ -5,6 +5,9 @@
 
 menu "Misc devices"
 
+config MYDRIVER
+    tristate "My test driver"
+
 config SENSORS_LIS3LV02D
 	tristate
 	depends on INPUT
