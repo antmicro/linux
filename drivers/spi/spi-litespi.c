@@ -169,7 +169,7 @@ static int litespi_probe(struct platform_device *pdev)
 
 	/* get base address */
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-	hw->base = devm_ioremap_resource(&pdev->dev, res);
+	hw->base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
 	if (IS_ERR(hw->base)) {
 		ret = PTR_ERR(hw->base);
 		goto err;
