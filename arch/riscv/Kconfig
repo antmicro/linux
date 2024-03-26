@@ -161,6 +161,7 @@ config RISCV
 	select HAVE_SYSCALL_TRACEPOINTS
 	select HOTPLUG_CORE_SYNC_DEAD if HOTPLUG_CPU
 	select IRQ_DOMAIN
+	select HANDLE_DOMAIN_IRQ # FIXME: should go in Kconfigs.soc !!!
 	select IRQ_FORCED_THREADING
 	select KASAN_VMALLOC if KASAN
 	select LOCK_MM_AND_FIND_VMA
