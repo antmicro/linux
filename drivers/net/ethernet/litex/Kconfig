@@ -22,6 +22,7 @@ config LITEX_LITEETH
 	select NET_CORE
 	select MII
 	select PHYLIB
+	help
 	  LiteX is a soft system-on-chip that targets FPGAs. LiteETH is a basic
 	  network device that is commonly used in LiteX designs.
 
