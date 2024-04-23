@@ -120,7 +120,7 @@ static void litex_vexriscv_intc_handle_irq(struct pt_regs *regs)
 
 		if (irq & BIT(i)) {
 			pr_debug("irqchip: handling at i = %d\n", i);
-			handle_domain_irq(root_domain, i, regs);
+			generic_handle_domain_irq(root_domain, i);
 		}
 	}
 }
